@@ -3,7 +3,7 @@ import Course from "./course.js";
 
 const sequelize = new Sequelize('postgres://devraj:123@localhost:5433/studentmonitoring');
 
-const Assignmet = sequelize.define(
+const Assignment = sequelize.define(
     'Assignment', { 
         assignment_id: { 
             // type: DataTypes.UUID, 
@@ -30,15 +30,26 @@ const Assignmet = sequelize.define(
         due_date: {
             type: DataTypes.STRING(15), 
             allowNull: false 
+        },
+        end_time: {
+            type: DataTypes.TIME(),
+            allowNull: false
+        },
+        completed: {
+            type: DataTypes.BOOLEAN(),
+            defaultValue: false
         }
+
+
+        
     },
     {
         tableName: 'assignments',
     }
 )
 
-Course.hasMany(Assignmet, {foreignKey: 'course_id'})
+Course.hasMany(Assignment, {foreignKey: 'course_id'})
 
 await sequelize.sync({ alter: true })
 
-export default Assignmet; 
+export default Assignment; 

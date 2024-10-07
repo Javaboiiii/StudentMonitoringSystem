@@ -2,13 +2,13 @@ import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
 
 const sendMail = async (req, res) => { 
-    const userEmail = 'devrajlokhande71@gmail.com';
+    const senderEmail = 'devrajlokhande71@gmail.com';
 
     let config = { 
         service: 'gmail', 
         auth: { 
-            user: process.env.user, 
-            pass: process.env.pass
+            user: 'devrajlokhande1610@gmail.com', 
+            pass: 'vdccqigshssgkhpm'
         }
     }
 
@@ -42,8 +42,8 @@ const sendMail = async (req, res) => {
     let mail = MailGenerator.generate(response)
 
     let message = {
-        from : process.env.user,
-        to : userEmail,
+        from : 'devrajlokhande1610@gmail.com',
+        to : senderEmail,
         subject: "Assignment Pending",
         html: mail
     }

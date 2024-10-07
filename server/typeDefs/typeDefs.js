@@ -23,14 +23,26 @@ const typeDefs = `#graphql
         description:String! 
         due_date: String
         course_id: String! 
+        end_time: String!
+        completed: Boolean!
         course: Course
     }
 
     type Enrollment { 
         user_id: String! 
         course_id: String! 
-        courses: [Course]
+        course: Course
+        user: User
+    }
+
+    type User_Assignments { 
+        user_id: String!
+        assignment_id: String! 
+        title: String!
+        email: String!
+        completed: Boolean
         users: [User]
+        assignment: [Assignment]
     }
 
     input Cuser { 
@@ -45,12 +57,14 @@ const typeDefs = `#graphql
         description: String! 
         start_date: String
         end_date: String
+        end_time: String
     }
     input Cassignment { 
         title: String! 
         description:String! 
         due_date: String!
         course_id: String!
+        end_time: String!
     }
 
     type Query{ 
@@ -59,6 +73,7 @@ const typeDefs = `#graphql
         assignment: [Assignment]
         courses: [Course!]
         enrollments: [Enrollment]
+        user_assignments: [User_Assignments]
     }
 
     type Mutation{ 
@@ -66,6 +81,9 @@ const typeDefs = `#graphql
         createCourse(course: Ccourse!): Course!
         createAssignment(assignment: Cassignment!): Assignment!
         checkPassword(password: String!, username: String!): User!
+        checkAssignment: [Assignment]!
+        addEnrollment(userId: String!, courseId: String): Enrollment
+        checkUserAssignment: User_Assignments
     }
 `
 

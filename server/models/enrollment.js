@@ -29,6 +29,6 @@ const Enrollment = sequelize.define(
 Enrollment.hasMany(User, { foreignKey: 'user_id' })
 Enrollment.hasMany(Course, { foreignKey: 'course_id' })
 
-await sequelize.sync({ alter: true })
+sequelize.sync({ alter: true })
 
 export default Enrollment; 
