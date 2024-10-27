@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
 
-const sendMail = async (req, res) => { 
-    const senderEmail = 'devrajlokhande71@gmail.com';
+const sendMail = async (email, title) => { 
+    const senderEmail = email;
 
     let config = { 
         service: 'gmail', 
@@ -30,8 +30,7 @@ const sendMail = async (req, res) => {
             table : {
                 data : [
                     {
-                        CourseName: 'Course Name', 
-                        AssignmentName: 'Assignment Name'
+                        AssignmentName: title
                     }
                 ]
             },
@@ -56,4 +55,4 @@ const sendMail = async (req, res) => {
 
 }
 
-sendMail();
+export default sendMail; 

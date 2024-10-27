@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.swing.SwingUtilities;
 
+import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -60,6 +61,8 @@ public void startSwingApp(ApplicationReadyEvent event) {
         try {
             String response = sendPostRequest(client(), "http://localhost:4000", json);
             System.out.println(response);
+            JSONObject jsonResponse = new JSONObject(response);
+            System.out.println(jsonResponse);
         } catch (IOException e) {
             e.printStackTrace();
         }
