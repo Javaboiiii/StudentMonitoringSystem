@@ -6,6 +6,7 @@ import Course from "../models/course.js";
 import Enrollment from "../models/enrollment.js";
 import User from "../models/user.js";
 import User_Assignments from "../models/user_assignments.js";
+import sendMail from "../mailer/nodeMailer.js";
 
 const sequelize = new Sequelize('postgres://devraj:123@localhost:5433/studentmonitoring');
 
@@ -164,9 +165,11 @@ const resolvers = {
                 console.log(user_ids);
 
                 for (let user_id of user_ids) {
-                    const newUser = await User.findOne({where:{
-                        user_id: user_id
-                    }})
+                    const newUser = await User.findOne({
+                        where: {
+                            user_id: user_id
+                        }
+                    })
                     await User_Assignments.create({
                         user_id: user_id,
                         assignment_id: newAssignment.assignment_id,
@@ -227,7 +230,7 @@ const resolvers = {
 
             // If time ended completed = True 
             await Promise.all(Assignments.map(async (e) => {
-                if (e.dataValues.end_time < timeString) {
+                if (e.dataValues.end_time === timeString) {
                     e.completed = true;
                     await e.save();
                     return e;
@@ -276,7 +279,7 @@ const resolvers = {
                 }
             })
 
-            
+
             // Check the time 
             const assi_ids = Assignments.map((e) => {
                 const endTimeDate = new Date(`1970-01-01T${e.end_time}Z`); // Create a date object with end_time
@@ -293,21 +296,24 @@ const resolvers = {
                 }
             })
 
+            if(assi_ids.length == 0) { 
+                return 
+            }
 
             const users = await User_Assignments.findAll({
-                where:{
+                where: {
                     assignment_id: assi_ids,
-                    completed: false 
+                    completed: false
                 }
             })
 
-            const user_ids = users.map((e) => {
-                if (e.user_id in user_ids) { 
-                    return e.user_id
-                }
-            })
+            if (users) {
+                users.map((e) => {
+                    sendMail(e.email, e.title)
+                })
+            }
 
-            console.log(user_ids);  
+
 
             return User_Assignments;
         }

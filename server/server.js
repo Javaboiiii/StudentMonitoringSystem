@@ -36,5 +36,7 @@ console.log(`🚀  Server ready at: ${url}`);
 
 const job = scheduleJob('0 * * * * *', function(){
     const date = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
+    resolvers.Mutation.checkUserAssignment();
+    resolvers.Mutation.checkAssignment();
     console.log('Current time in Asia/Kolkata timezone: ' + date);
 });
