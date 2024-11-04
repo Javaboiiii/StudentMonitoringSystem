@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="students">
+    <children>
+        <AnchorPane prefHeight="400.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="studentTable" layoutX="29.0" layoutY="70.0" prefHeight="295.0" prefWidth="572.0" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="70.0">
+                <columns>
+                    <TableColumn fx:id="studentIdCol" prefWidth="100.0" text="Student ID" />
+                    <TableColumn fx:id="nameCol" prefWidth="200.0" text="Name" />
+                    <TableColumn fx:id="prnCol" prefWidth="50.0" text="PRN" />
+                    <TableColumn fx:id="gradeCol" prefWidth="100.0" text="Grade" />
+                    <TableColumn fx:id="attendanceCol" prefWidth="120.0" text="Attendance" />
+                </columns>
+            </TableView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebb834" height="55.0" stroke="#ebb834" strokeType="INSIDE" width="640.0" />
+            <Label layoutX="249.0" layoutY="8.0" text="Student List" textFill="WHITE">
+                <font>
+                    <Font name="System Bold Italic" size="26.0" />
+                </font>
+            </Label>
+        </AnchorPane>
+    </children>
+</VBox>

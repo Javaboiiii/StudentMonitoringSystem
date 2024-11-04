@@ -7,7 +7,7 @@ import { scheduleJob } from 'node-schedule';
 import moment from 'moment-timezone';
 
 // const sequelize = new Sequelize('sqlite::memory:') 
-const sequelize = new Sequelize('postgres://devraj:123@localhost:5433/studentmonitoring')  
+const sequelize = new Sequelize('postgres://devraj:123@localhost:5432/studentmonitoring')  
 // const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname')
 
 const connection = async () => {

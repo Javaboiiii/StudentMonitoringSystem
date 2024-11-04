@@ -2,7 +2,7 @@ import { Sequelize, DataTypes } from 'sequelize';
 import User from './user.js';
 import Assignment from './assignment.js';
 
-const sequelize = new Sequelize('postgres://devraj:123@localhost:5433/studentmonitoring');
+const sequelize = new Sequelize('postgres://devraj:123@localhost:5432/studentmonitoring');
 
 const User_Assignments = sequelize.define(
     'User_Assignments', { 
