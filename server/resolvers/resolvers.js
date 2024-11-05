@@ -8,7 +8,7 @@ import User from "../models/user.js";
 import User_Assignments from "../models/user_assignments.js";
 import sendMail from "../mailer/nodeMailer.js";
 
-const sequelize = new Sequelize('postgres://devraj:123@localhost:5433/studentmonitoring');
+const sequelize = new Sequelize('postgres://devraj:123@localhost:5432/studentmonitoring');
 
 const resolvers = {
     Course: {
@@ -86,7 +86,8 @@ const resolvers = {
                         email: user.email,
                         password: password,
                         role: user.role,
-                        username: user.username
+                        prn: user.prn,
+                        username: user.username,
                     });
                     return newUser;
                 }
@@ -110,8 +111,8 @@ const resolvers = {
                 if (!findUser) {
                     throw new Error('User do not Exist')
                 }
-                if (findUser.role === "User") {
-                    throw new Error("User cannot create Course");
+                if (findUser.role === "student") {
+                    throw new Error("Student cannot create Course");
                 }
                 const newCourse = await Course.create({
                     description: course.description,
@@ -190,7 +191,8 @@ const resolvers = {
         },
 
         checkPassword: async (parent, args) => {
-            const findUser = await User.findOne({ where: { username: args.username } })
+            const findUser = await User.findOne({ where: { email: args.email } })
+            // throw new Error(findUser)
             if (!findUser) {
                 throw new Error("Something is wrong")
             }
@@ -199,15 +201,13 @@ const resolvers = {
                 console.log("Password is Right");
                 return findUser
             } else {
-                throw new Error("Something is Wrong")
+                throw new Error("Password is Wrong")
             }
-
         },
         checkAssignment: async (parent, args) => {
-
             const today = new Date();
             const year = today.getFullYear();
-            const month = today.getMonth() + 1; // JavaScript months are 0-indexed
+            const month = today.getMonth() + 1; 
             const day = today.getDate();
 
             const dateOnlyString = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year.toString().padStart(2, '0')}`;

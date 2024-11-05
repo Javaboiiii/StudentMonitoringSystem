@@ -1,11 +1,18 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -22,6 +29,22 @@ public class forgotPassword {
 
     // Store the OTP to verify it later if needed
     private int generatedOTP;
+
+    @FXML
+    private Hyperlink toLogin;
+
+    @FXML
+    void navToLogin(ActionEvent event) {
+        try {
+            Parent forgotPasswordRoot = FXMLLoader.load(getClass().getResource("loginPage.fxml")); 
+            Stage stage = (Stage) toLogin.getScene().getWindow(); 
+            Scene scene = new Scene(forgotPasswordRoot);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void sendOTP(ActionEvent event) {

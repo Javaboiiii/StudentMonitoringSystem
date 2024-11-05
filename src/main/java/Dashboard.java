@@ -30,9 +30,6 @@ public class Dashboard {
     private Button lessonPlan;
 
     @FXML
-    private Label prn;
-
-    @FXML
     private Button result;
 
     @FXML
@@ -41,57 +38,52 @@ public class Dashboard {
     @FXML
     private Label username;
 
+    @FXML
+    private Label prn;
+ 
+    private String user_id;
+
+    public void setUserDetails(String usernameText, String prnText, String user_id) {
+        username.setText(usernameText);
+        prn.setText(prnText);
+        this.user_id = user_id;
+        System.out.println(this.user_id);
+    }
     
     private void loadScene(String fxmlFile) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile)); // Load the new scene
-            Stage stage = (Stage) assign.getScene().getWindow(); // Get the current stage
-            Scene scene = new Scene(root); // Create a new scene with the loaded FXML
-            stage.setScene(scene); // Set the new scene on the stage
-            stage.show(); // Show the updated stage
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+            Stage stage = (Stage) assign.getScene().getWindow(); 
+            Scene scene = new Scene(root); 
+            stage.setScene(scene); 
+            stage.show(); 
         } catch (IOException e) {
-            e.printStackTrace(); // Print the stack trace for debugging
+            e.printStackTrace(); 
         }
     }
 
     @FXML
     void navToAssign(ActionEvent event) {
-        loadScene("assign.fxml");
+        loadScene("assignment.fxml");
     }
 
-    @FXML
-    void navToAttendance(ActionEvent event) {
-        loadScene("attendance.fxml");
-    }
-
+   
     @FXML
     void navToCourses(ActionEvent event) {
-        loadScene("courses.fxml");
-    }
-
-    @FXML
-    void navToGrievance(ActionEvent event) {
-        loadScene("grievance.fxml");
-    }
-
-    @FXML
-    void navToLesson(ActionEvent event) {
-        loadScene("lessonPlan.fxml");
-    }
-
-    @FXML
-    void navToResult(ActionEvent event) {
-        loadScene("result.fxml");
-    }
-
-    @FXML
-    void navToTimetable(ActionEvent event) {
-        loadScene("timetable.fxml");
-    }
-
-    @FXML
-    void navToFeedback(ActionEvent event) {
-        loadScene("feedback.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("course.fxml"));
+            Parent root = loader.load();
+            
+            Course controller = loader.getController();
+            controller.setUserId(user_id);
+            
+            // Load the scene
+            Stage stage = (Stage) courses.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
 }

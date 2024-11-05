@@ -4,6 +4,7 @@ const typeDefs = `#graphql
         username: String!
         password: String! 
         email: String! 
+        prn: String!
         role: String!  
     }
 
@@ -48,7 +49,8 @@ const typeDefs = `#graphql
     input Cuser { 
         username: String!
         password: String! 
-        email: String! 
+        email: String!
+        prn: String! 
         role: String! 
     }
     input Ccourse { 
@@ -80,7 +82,7 @@ const typeDefs = `#graphql
         createUser(user: Cuser!): User!
         createCourse(course: Ccourse!): Course!
         createAssignment(assignment: Cassignment!): Assignment!
-        checkPassword(password: String!, username: String!): User!
+        checkPassword(password: String!, email: String!): User!
         checkAssignment: [Assignment]!
         addEnrollment(userId: String!, courseId: String): Enrollment
         checkUserAssignment: User_Assignments

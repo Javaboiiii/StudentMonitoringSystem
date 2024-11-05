@@ -59,8 +59,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <ListView fx:id="pendingAssign" editable="true" fixedCellSize="10.0" layoutX="55.0" layoutY="106.0" prefHeight="103.0" prefWidth="523.0" />
-            <ListView fx:id="submittedAssign" layoutX="55.0" layoutY="258.0" prefHeight="103.0" prefWidth="523.0" />
+            <ListView fx:id="pendingAssign" editable="true" fixedCellSize="20.0" layoutX="55.0" layoutY="106.0" prefHeight="103.0" prefWidth="523.0" />
+            <ListView fx:id="submittedAssign" layoutX="55.0" fixedCellSize="20.0" layoutY="258.0" prefHeight="103.0" prefWidth="523.0" />
          </children>
     </AnchorPane>
   </children>

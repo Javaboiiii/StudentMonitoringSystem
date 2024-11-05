@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="374.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DashboardFaculty">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebb834" height="55.0" stroke="#ebb834" strokeType="INSIDE" width="640.0" />
+      <Label fx:id="username" layoutX="42.0" layoutY="13.0" prefHeight="27.0" prefWidth="103.0" text="UserName">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="prn" layoutX="499.0" layoutY="13.0" prefHeight="27.0" prefWidth="103.0" text="PRN">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button fx:id="assign" layoutX="42.0" layoutY="82.0" mnemonicParsing="false" onAction="#navToAssign" prefHeight="118.0" prefWidth="121.0" text="Teacher">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="attendance" layoutX="190.0" layoutY="82.0" mnemonicParsing="false" onAction="#navToAttendance" prefHeight="118.0" prefWidth="121.0" text="Attendance">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="courses" layoutX="336.0" layoutY="82.0" mnemonicParsing="false" onAction="#navToCourses" prefHeight="118.0" prefWidth="121.0" text="Courses">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="timetable" layoutX="482.0" layoutY="82.0" mnemonicParsing="false" onAction="#navToTimetable" prefHeight="118.0" prefWidth="121.0" text="Timetable">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="feedback" layoutX="482.0" layoutY="237.0" mnemonicParsing="false" onAction="#navToFeedback" prefHeight="118.0" prefWidth="121.0" text="Feedback">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="grievance" layoutX="336.0" layoutY="237.0" mnemonicParsing="false" onAction="#navToGrievance" prefHeight="118.0" prefWidth="121.0" text="Grievances">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="result" layoutX="190.0" layoutY="237.0" mnemonicParsing="false" onAction="#navToResult" prefHeight="118.0" prefWidth="121.0" text="Results">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="lessonPlan" layoutX="42.0" layoutY="237.0" mnemonicParsing="false" onAction="#navToLesson" prefHeight="118.0" prefWidth="121.0" text="Lesson Plan">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

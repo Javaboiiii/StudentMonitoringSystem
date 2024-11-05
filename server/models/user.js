@@ -28,6 +28,11 @@ const User = sequelize.define(
         role: {
             type: DataTypes.STRING, 
             allowNull: false 
+        },
+        prn: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
         }
     },
     {

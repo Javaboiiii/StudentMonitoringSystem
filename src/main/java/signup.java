@@ -1,10 +1,5 @@
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.nio.charset.StandardCharsets;
-import java.net.URL;
-import java.net.HttpURLConnection;
-
+import org.json.JSONObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,46 +12,44 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class signup {
 
     @FXML
     private TextField email;
-
     @FXML
     private RadioButton faculty;
-
     @FXML
     private Button loginButton;
-
     @FXML
     private Label loginError;
-
     @FXML
     private TextField name;
-
     @FXML
     private PasswordField password1;
-
     @FXML
     private PasswordField password2;
-
     @FXML
     private TextField prn;
-
     @FXML
     private RadioButton student;
-
-    
     @FXML
     private Hyperlink toLogin;
+
+    private final OkHttpClient client = new OkHttpClient();
+    private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     @FXML
     void navToLogin(ActionEvent event) {
         try {
-            Parent forgotPasswordRoot = FXMLLoader.load(getClass().getResource("loginPage.fxml")); 
-            Stage stage = (Stage) toLogin.getScene().getWindow(); 
-            Scene scene = new Scene(forgotPasswordRoot);
+            Parent loginRoot = FXMLLoader.load(getClass().getResource("loginPage.fxml"));
+            Stage stage = (Stage) toLogin.getScene().getWindow();
+            Scene scene = new Scene(loginRoot);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -64,35 +57,35 @@ public class signup {
         }
     }
 
-    public void sendSignupMutation(String username, String password, String email, String role) {
-        try {
-            URL url = new URL("http://localhost:4000/graphql"); 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
+    public void sendSignupMutation(String username, String password, String email, String prn, String role) {
+        String url = "http://localhost:4000";
+        
+        String mutation = new JSONObject()
+            .put("query", "mutation CreateUser($user: Cuser!) { createUser(user: $user) { user_id username email prn role } }")
+            .put("variables", new JSONObject()
+            .put("user", new JSONObject()
+            .put("username", username)
+            .put("password", password)
+            .put("email", email)
+            .put("prn", prn)
+            .put("role", role)))
+            .toString();
 
-            // GraphQL mutation
-            String mutation = String.format(
-                "{\"query\": \"mutation { signup(username: \\\"%s\\\", password: \\\"%s\\\", email: \\\"%s\\\", role: \\\"%s\\\") { user_id username email role } }\"}",
-                username, password, email, role
-            );
+        RequestBody body = RequestBody.create(mutation, JSON);
+        Request request = new Request.Builder()
+            .url(url)
+            .post(body)
+            .addHeader("Content-Type", "application/json")
+            .build();
 
-            // Write data
-            try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = mutation.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            // Check response code
-            int code = connection.getResponseCode();
-            if (code == HttpURLConnection.HTTP_OK) {
-                System.out.println("Signup mutation sent successfully.");
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                System.out.println("Signup mutation sent successfully: " + response.body().string());
+                navigateToLogin();
             } else {
-                System.out.println("Failed to send signup mutation: " + code);
+                System.out.println("Failed to send signup mutation. Response code: " + response.code());
             }
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -103,6 +96,7 @@ public class signup {
         String password = password1.getText();
         String confirmPassword = password2.getText();
         String emailText = email.getText();
+        String prnText = prn.getText();
         String role = student.isSelected() ? "student" : "faculty";
 
         if (!password.equals(confirmPassword)) {
@@ -110,6 +104,18 @@ public class signup {
             return;
         }
 
-        sendSignupMutation(username, password, emailText, role);
+        sendSignupMutation(username, password, emailText, prnText, role);
+    }
+
+    private void navigateToLogin() {
+        try {
+            Parent homeRoot = FXMLLoader.load(getClass().getResource("loginPage.fxml"));
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            Scene scene = new Scene(homeRoot);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
