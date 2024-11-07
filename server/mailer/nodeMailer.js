@@ -1,14 +1,13 @@
 import nodemailer from 'nodemailer';
 import Mailgen from 'mailgen';
 
-const sendMail = async (email, title) => { 
-    const senderEmail = email;
+const sendMail = async (recievers_email, title) => { 
 
     let config = { 
         service: 'gmail', 
         auth: { 
             user: 'devrajlokhande1610@gmail.com', 
-            pass: 'vdccqigshssgkhpm'
+            pass: 'uwofexhlgwpzzxoq'
         }
     }
 
@@ -25,7 +24,7 @@ const sendMail = async (email, title) => {
 
     let response = { 
         body: {
-            name : "Assignment Pending ⚠⚠",
+            name : `${title} Assignment Pending ⚠⚠`,
             intro: "Your assignment is Pending!!",
             table : {
                 data : [
@@ -42,7 +41,7 @@ const sendMail = async (email, title) => {
 
     let message = {
         from : 'devrajlokhande1610@gmail.com',
-        to : senderEmail,
+        to : recievers_email,
         subject: "Assignment Pending",
         html: mail
     }
@@ -55,4 +54,4 @@ const sendMail = async (email, title) => {
 
 }
 
-export default sendMail; 
+export default sendMail;

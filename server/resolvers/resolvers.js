@@ -258,8 +258,8 @@ const resolvers = {
             })
             return newEnrollment;
         },
-
         checkUserAssignment: async (parent, args) => {
+            
             const today = new Date();
             const year = today.getFullYear();
             const month = today.getMonth() + 1; // JavaScript months are 0-indexed
@@ -268,56 +268,59 @@ const resolvers = {
             const minutes = today.getMinutes();
             const seconds = today.getSeconds();
 
-            const timeString = `${hours}:${minutes}:${seconds}`;
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const dateOnlyString = `${day}/${month.toString().padStart(2, '0')}/${year.toString().padStart(2, '0')}`;
 
-            const dateOnlyString = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year.toString().padStart(2, '0')}`;
+            const currentTimePlusOneHour = new Date(today.getTime() + 60 * 60 * 1000); // Add one hour
+            const newHours = currentTimePlusOneHour.getHours().toString().padStart(2, '0');
+            const newMinutes = currentTimePlusOneHour.getMinutes().toString().padStart(2, '0');
+            const newSeconds = currentTimePlusOneHour.getSeconds().toString().padStart(2, '0');
+            const newEndTime = `${newHours}:${newMinutes}:${newSeconds}`;
 
-            const Assignments = await Assignment.findAll({
+            console.log(`Current time: ${timeString}`);
+            console.log(`Current date: ${dateOnlyString}`);
+            console.log(`New end time (current time + 1 hour): ${newEndTime}`);
+
+            console.log(timeString, newEndTime)
+
+            const assignments = await Assignment.findAll({
                 where: {
                     due_date: dateOnlyString,
-                    completed: false
+                    completed: false,
+                    end_time: newEndTime
                 }
-            })
+            });
 
+            console.log('Assignments:', assignments);
 
-            // Check the time 
-            const assi_ids = Assignments.map((e) => {
-                const endTimeDate = new Date(`1970-01-01T${e.end_time}Z`); // Create a date object with end_time
-                endTimeDate.setHours(endTimeDate.getHours() - 1); // Subtract 1 hour
+            const assi_ids = assignments.map(e => { return e.assignment_id});
 
-                const newHours = endTimeDate.getUTCHours().toString().padStart(2, '0'); // Get the new hours
-                const newMinutes = endTimeDate.getUTCMinutes().toString().padStart(2, '0'); // Get the new minutes
-                const newSeconds = endTimeDate.getUTCSeconds().toString().padStart(2, '0'); // Get the new seconds
-
-                const newEndTime = `${newHours}:${newMinutes}:${newSeconds}`; // Create the new end time string
-                console.log(timeString, newEndTime)
-                if (timeString > newEndTime) {
-                    return e.assignment_id;
-                }
-            })
-
-            if(assi_ids.length == 0) { 
-                return 
-            }
+            console.log('Assignment IDs:', assi_ids);
 
             const users = await User_Assignments.findAll({
-                where: {
+                where:{
                     assignment_id: assi_ids,
-                    completed: false
+                    completed: false 
                 }
             })
 
-            if (users) {
-                users.map((e) => {
-                    sendMail(e.email, e.title)
-                })
-            }
+            const user_ids = users.map((e) => {
+                return e.user_id;
+            })
 
-
+            console.log(user_ids); 
+            
+            users.forEach(async (user) => { 
+                try {
+                    await sendMail(user.email, user.title);
+                    console.log(`Email sent to ${user.email}`);
+                } catch (error) {
+                    console.error(`Error sending email to ${user.email}:`, error);
+                }
+            })
 
             return User_Assignments;
         }
-
     }
 }
 
