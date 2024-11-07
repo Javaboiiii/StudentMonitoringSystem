@@ -269,7 +269,7 @@ const resolvers = {
             const seconds = today.getSeconds();
 
             const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            const dateOnlyString = `${day}/${month.toString().padStart(2, '0')}/${year.toString().padStart(2, '0')}`;
+            const dateOnlyString = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year.toString().padStart(2, '0')}`;
 
             const currentTimePlusOneHour = new Date(today.getTime() + 60 * 60 * 1000); // Add one hour
             const newHours = currentTimePlusOneHour.getHours().toString().padStart(2, '0');
